@@ -92,8 +92,86 @@
       overflow: hidden;
     }
     #mapa .leaflet-tile-pane { filter: saturate(0.85) sepia(0.15); }
+    .blad-mapy {
+      margin-top: 0.75rem;
+      padding: 0.5rem 1rem;
+      border: 2px solid var(--brzask);
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      text-align: center;
+      color: var(--tekst);
+    }
+    #mapa .pinezka {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+    }
+    #mapa .pinezka-punkt {
+      display: block;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--brzask);
+      border: 3px solid var(--niebo-noc);
+      box-shadow: 0 0 0 2px var(--tekst), 0 2px 6px rgba(0, 0, 0, 0.5);
+      transition: transform 0.15s ease-out;
+    }
+    #mapa .pinezka:hover .pinezka-punkt { transform: scale(1.2); }
+    #mapa .pinezka:focus { outline: none; }
+    #mapa .pinezka:focus-visible .pinezka-punkt {
+      outline: 3px solid var(--tekst);
+      outline-offset: 3px;
+      transform: scale(1.2);
+    }
+    #mapa .leaflet-popup-content-wrapper {
+      background: var(--niebo-noc);
+      color: var(--tekst);
+      border: 2px solid var(--brzask);
+      border-radius: 0.75rem;
+      font-family: "Fraunces", Georgia, serif;
+    }
+    #mapa .leaflet-popup-tip { background: var(--niebo-noc); }
+    #mapa .leaflet-popup-content {
+      max-width: calc(100vw - 7rem);
+      margin: 0.9rem 2.75rem 0.9rem 1rem;
+      font-size: 1rem;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+    #mapa .leaflet-popup-content h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--brzask);
+    }
+    #mapa .leaflet-popup-content .popup-kraj {
+      margin: 0.1rem 0 0.5rem;
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+    #mapa .leaflet-popup-content .popup-opis {
+      margin: 0;
+      font-weight: 300;
+    }
+    #mapa a.leaflet-popup-close-button {
+      top: 0;
+      right: 0;
+      width: 44px;
+      height: 44px;
+      font-size: 1.75rem;
+      line-height: 44px;
+      color: var(--brzask);
+    }
+    #mapa a.leaflet-popup-close-button:hover,
+    #mapa a.leaflet-popup-close-button:focus-visible { color: var(--tekst); }
     @media (prefers-reduced-motion: reduce) {
       .hero h1, .hero p { animation: none; }
+      #mapa .pinezka-punkt { transition: none; }
     }
   </style>
 </head>
@@ -108,17 +186,22 @@
   <section class="mapa">
     <h2>Mapa świata</h2>
     <div id="mapa"></div>
+    <p id="mapa-blad" class="blad-mapy" role="status" hidden></p>
     <p class="podpis-mapy">&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a></p>
   </section>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin></script>
   <script>
     (function () {
+      var mniejRuchu = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
       var mapa = L.map("mapa", {
         minZoom: 1,
         worldCopyJump: true,
         scrollWheelZoom: false,
         dragging: !L.Browser.mobile,
-        tap: !L.Browser.mobile
+        tap: !L.Browser.mobile,
+        zoomAnimation: !mniejRuchu,
+        fadeAnimation: !mniejRuchu,
+        markerZoomAnimation: !mniejRuchu
       }).setView([20, 0], 2);
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
@@ -126,6 +209,102 @@
       }).addTo(mapa);
       mapa.on("click", function () { mapa.scrollWheelZoom.enable(); });
       mapa.on("mouseout", function () { mapa.scrollWheelZoom.disable(); });
+
+      var elMapa = document.getElementById("mapa");
+      var elBlad = document.getElementById("mapa-blad");
+
+      function pokazBlad(tekst) {
+        if (!elBlad) { return; }
+        elBlad.textContent = tekst;
+        elBlad.hidden = false;
+      }
+
+      function poprawnaLiczba(wartosc, min, max) {
+        return typeof wartosc === "number" && isFinite(wartosc) && wartosc >= min && wartosc <= max;
+      }
+
+      function tekst(wartosc) {
+        return typeof wartosc === "string" ? wartosc : "";
+      }
+
+      function zrobTresc(miejsce) {
+        var tresc = document.createElement("div");
+        var naglowek = document.createElement("h3");
+        naglowek.textContent = tekst(miejsce.nazwa) || "Miejsce";
+        tresc.appendChild(naglowek);
+        var kraj = tekst(miejsce.kraj);
+        if (kraj) {
+          var pKraj = document.createElement("p");
+          pKraj.className = "popup-kraj";
+          pKraj.textContent = kraj;
+          tresc.appendChild(pKraj);
+        }
+        var opis = tekst(miejsce.opis);
+        if (opis) {
+          var pOpis = document.createElement("p");
+          pOpis.className = "popup-opis";
+          pOpis.textContent = opis;
+          tresc.appendChild(pOpis);
+        }
+        return tresc;
+      }
+
+      function dodajPinezke(miejsce) {
+        var nazwa = tekst(miejsce.nazwa) || "Miejsce";
+        var punkt = document.createElement("span");
+        punkt.className = "pinezka-punkt";
+        var ikona = L.divIcon({
+          className: "pinezka",
+          html: punkt,
+          iconSize: [44, 44],
+          iconAnchor: [22, 22],
+          popupAnchor: [0, -20]
+        });
+        var znacznik = L.marker([miejsce.szerokosc, miejsce.dlugosc], {
+          icon: ikona,
+          title: nazwa,
+          alt: nazwa,
+          keyboard: true,
+          riseOnHover: true
+        }).addTo(mapa);
+        var elZnacznika = znacznik.getElement();
+        if (elZnacznika) { elZnacznika.setAttribute("aria-label", nazwa); }
+        var szerokoscMapy = elMapa ? elMapa.clientWidth : 320;
+        var wysokoscMapy = elMapa ? elMapa.clientHeight : 320;
+        znacznik.bindPopup(zrobTresc(miejsce), {
+          maxWidth: Math.max(160, Math.min(320, szerokoscMapy - 72)),
+          maxHeight: Math.max(120, Math.round(wysokoscMapy * 0.55)),
+          autoPanPadding: L.point(16, 16)
+        });
+      }
+
+      function wczytajMiejsca() {
+        if (typeof fetch !== "function") {
+          pokazBlad("Nie udało się wczytać miejsc.");
+          return;
+        }
+        fetch("miejsca.json")
+          .then(function (odpowiedz) {
+            if (!odpowiedz.ok) { throw new Error("HTTP " + odpowiedz.status); }
+            return odpowiedz.json();
+          })
+          .then(function (dane) {
+            if (!Array.isArray(dane)) { throw new Error("Zły format danych"); }
+            var dodane = 0;
+            dane.forEach(function (miejsce) {
+              if (!miejsce || typeof miejsce !== "object") { return; }
+              if (!poprawnaLiczba(miejsce.szerokosc, -90, 90) || !poprawnaLiczba(miejsce.dlugosc, -180, 180)) { return; }
+              dodajPinezke(miejsce);
+              dodane += 1;
+            });
+            if (dodane === 0) { throw new Error("Brak poprawnych miejsc"); }
+          })
+          .catch(function () {
+            pokazBlad("Nie udało się wczytać miejsc.");
+          });
+      }
+
+      wczytajMiejsca();
     })();
   </script>
 </body>
