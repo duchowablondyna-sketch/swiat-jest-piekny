@@ -44,6 +44,21 @@
       from { opacity: 0; transform: translateY(40px); filter: blur(6px); }
       to   { opacity: 1; transform: translateY(0); filter: blur(0); }
     }
+    .opis {
+      padding: 4rem 2rem 5rem;
+      display: flex;
+      justify-content: center;
+      background: var(--brzask);
+      color: var(--niebo-noc);
+      font-family: "Fraunces", Georgia, serif;
+    }
+    .opis p {
+      max-width: 60ch;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 300;
+      line-height: 1.6;
+      text-align: center;
+    }
     @media (prefers-reduced-motion: reduce) {
       .hero h1, .hero p { animation: none; }
     }
@@ -53,6 +68,9 @@
   <section class="hero">
     <h1>Świat jest piękny</h1>
     <p>zrobione 7 pazdziernika 2026</p>
+  </section>
+  <section class="opis">
+    <p>Ta strona będzie pokazywać najpiękniejsze miejsca na świecie. Zbierzemy tu krajobrazy: od gór i oceanów po miasta o świcie. Zaglądaj, żeby przypomnieć sobie, że świat jest piękny.</p>
   </section>
 </body>
 </html>
