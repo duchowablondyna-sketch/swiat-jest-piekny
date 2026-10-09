@@ -1,0 +1,82 @@
+[
+  {
+    "id": "machu-picchu",
+    "nazwa": "Machu Picchu",
+    "kraj": "Peru",
+    "szerokosc": -13.1631,
+    "dlugosc": -72.545,
+    "opis": "Kamienne miasto Inków na grzbiecie gór w Andach. O świcie często tonie we mgle, która powoli odsłania tarasy."
+  },
+  {
+    "id": "zatoka-ha-long",
+    "nazwa": "Zatoka Ha Long",
+    "kraj": "Wietnam",
+    "szerokosc": 20.9101,
+    "dlugosc": 107.1839,
+    "opis": "Tysiące wapiennych wysp wyrastających wprost ze szmaragdowej wody. Najpiękniej wyglądają z pokładu łodzi o zachodzie słońca."
+  },
+  {
+    "id": "jeziora-plitwickie",
+    "nazwa": "Jeziora Plitwickie",
+    "kraj": "Chorwacja",
+    "szerokosc": 44.8654,
+    "dlugosc": 15.582,
+    "opis": "Szesnaście turkusowych jezior połączonych kaskadami wodospadów. Drewniane kładki prowadzą tuż nad powierzchnią wody."
+  },
+  {
+    "id": "wodospady-wiktorii",
+    "nazwa": "Wodospady Wiktorii",
+    "kraj": "Zambia i Zimbabwe",
+    "szerokosc": -17.9243,
+    "dlugosc": 25.8572,
+    "opis": "Zambezi spada tu z ponad stumetrowej krawędzi, wzbijając słup mgły widoczny z daleka. Miejscowi mówią o dymie, który grzmi."
+  },
+  {
+    "id": "wielki-kanion",
+    "nazwa": "Wielki Kanion Kolorado",
+    "kraj": "Stany Zjednoczone",
+    "szerokosc": 36.1069,
+    "dlugosc": -112.1129,
+    "opis": "Ogromna rozpadlina wyżłobiona przez rzekę w czerwonych skałach. Barwy ścian zmieniają się z każdą godziną dnia."
+  },
+  {
+    "id": "milford-sound",
+    "nazwa": "Milford Sound",
+    "kraj": "Nowa Zelandia",
+    "szerokosc": -44.6414,
+    "dlugosc": 167.8974,
+    "opis": "Fiord otoczony pionowymi ścianami gór, po których po deszczu spływają dziesiątki wodospadów. Często widać tu foki."
+  },
+  {
+    "id": "geirangerfjord",
+    "nazwa": "Geirangerfjord",
+    "kraj": "Norwegia",
+    "szerokosc": 62.121,
+    "dlugosc": 7.129,
+    "opis": "Wąski fiord wcinający się między strome zbocza. Nad wodą wiszą opuszczone gospodarstwa i wodospad Siedmiu Sióstr."
+  },
+  {
+    "id": "petra",
+    "nazwa": "Petra",
+    "kraj": "Jordania",
+    "szerokosc": 30.3285,
+    "dlugosc": 35.4444,
+    "opis": "Miasto wykute w różowym piaskowcu, do którego wchodzi się wąskim wąwozem. Na końcu czeka fasada Skarbca."
+  },
+  {
+    "id": "salar-de-uyuni",
+    "nazwa": "Salar de Uyuni",
+    "kraj": "Boliwia",
+    "szerokosc": -20.1338,
+    "dlugosc": -67.4891,
+    "opis": "Największe solnisko świata. Po deszczu zamienia się w gigantyczne lustro, w którym odbija się całe niebo."
+  },
+  {
+    "id": "sossusvlei",
+    "nazwa": "Sossusvlei",
+    "kraj": "Namibia",
+    "szerokosc": -24.7398,
+    "dlugosc": 15.2876,
+    "opis": "Pomarańczowe wydmy Namibu sięgające ponad trzystu metrów. U ich stóp bieleją gliniane misy z uschłymi akacjami."
+  }
+]
