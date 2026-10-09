@@ -1,9 +1,9 @@
 # Reguły projektu: swiat-jest-piekny
 
-## Tryb pracy (cykl 1)
+## Tryb pracy (cykl 2)
 - Przed każdym zadaniem przedstaw plan i poczekaj na moją akceptację.
 - Każda zmiana idzie przez osobną gałąź i pull request. Nigdy nie commituj bezpośrednio do main.
-- Merge pull requesta robię ja.
+- Merge jest automatyczny po zielonych testach ("Poprawność HTML" i "Skan sekretów"). Pilnuje go reguła ochrony main na GitHubie, więc nie czekasz na mój merge.
 
 ## Zawsze
 - Repozytorium jest publiczne: nic tajnego w kodzie, commitach ani opisach.
