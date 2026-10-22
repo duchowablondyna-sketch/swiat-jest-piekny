@@ -7,10 +7,55 @@ on:
     types: [opened]
 
 jobs:
-  claude:
+  bramka:
     if: |
-      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
-      (github.event_name == 'issues' && contains(github.event.issue.body, '@claude'))
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude') && contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)) ||
+      (github.event_name == 'issues' && contains(github.event.issue.body, '@claude') && contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association))
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+    outputs:
+      decyzja: ${{ steps.ocena.outputs.decyzja }}
+    steps:
+      - name: Pobranie zasad bramki
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
+        with:
+          fetch-depth: 1
+
+      - name: Ocena zgłoszenia przez Jev
+        id: ocena
+        env:
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+          TYTUL: ${{ github.event.issue.title }}
+          TRESC: ${{ github.event.issue.body }}
+          KOMENTARZ: ${{ github.event.comment.body }}
+        run: python3 .github/bramka/bramka_ci.py
+
+      - name: Komentarz i etykieta
+        if: always() && steps.ocena.outcome != 'skipped'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          NR: ${{ github.event.issue.number }}
+          DECYZJA: ${{ steps.ocena.outputs.decyzja }}
+        run: |
+          gh label create "bramka: przepuszczone" --color 2da44e --force || true
+          gh label create "bramka: odrzucone" --color d1242f --force || true
+          gh label create "bramka: do decyzji" --color d4a72c --force || true
+          case "$DECYZJA" in
+            przepusc) ETYKIETA="bramka: przepuszczone" ;;
+            odrzuc)   ETYKIETA="bramka: odrzucone" ;;
+            *)        ETYKIETA="bramka: do decyzji" ;;
+          esac
+          gh issue edit "$NR" --remove-label "bramka: przepuszczone" --remove-label "bramka: odrzucone" --remove-label "bramka: do decyzji" || true
+          gh issue edit "$NR" --add-label "$ETYKIETA" || true
+          if [ -f komentarz.md ]; then gh issue comment "$NR" --body-file komentarz.md; else gh issue comment "$NR" --body "⚠️ Bramka: brak wyniku oceny — agent nie startuje."; fi
+
+  claude:
+    needs: bramka
+    if: needs.bramka.outputs.decyzja == 'przepusc'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
