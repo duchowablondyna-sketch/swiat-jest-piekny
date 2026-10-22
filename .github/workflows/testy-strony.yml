@@ -1,0 +1,26 @@
+name: Testy strony
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  playwright:
+    name: Playwright
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Pobranie kodu
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
+        with:
+          fetch-depth: 1
+
+      - name: Instalacja robota testującego
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: Testy w przeglądarce
+        run: npx playwright test
