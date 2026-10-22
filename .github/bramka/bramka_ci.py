@@ -45,4 +45,20 @@ try:
         decyzja = "szara"
 
     naglowki = {
-        "przepusc": "✅ **Bramka: przepuszczone** — agent może zaczynać.",
+        "przepusc": ":white_check_mark: **Bramka: przepuszczone** — agent może zaczynać.",
+        "odrzuc": ":x: **Bramka: odrzucone** — agent nie startuje.",
+        "szara": ":yellow_circle: **Bramka: do decyzji człowieka** — agent nie startuje.",
+    }
+    linie = [naglowki[decyzja], "", "| Pytanie | Wynik |", "|---|---|"]
+    for n in nazwy:
+        znak = ":white_check_mark:" if wyniki[n] >= gora else (":x:" if wyniki[n] < dol else ":yellow_circle:")
+        linie.append("| " + Z["opisy"][n] + " | " + format(wyniki[n], ".2f") + " " + znak + " |")
+    linie += ["", "Model: " + str(dane.get("model")) + " · czas: " + format(czas, ".2f") + " s · zasady: " + Z["wersja"]
+              + " · progi: przepuść >= " + str(gora) + ", odrzuć < " + str(dol)]
+    if decyzja != "przepusc":
+        linie += ["", "Co dalej: popraw treść zgłoszenia (np. dopisz, po czym poznać, że jest gotowe, albo usuń prośby spoza zakresu) i zawołaj agenta ponownie w nowym komentarzu."]
+    zapisz(decyzja, "\n".join(linie))
+    print("Decyzja:", decyzja, wyniki)
+except Exception as e:
+    zapisz("blad", ":warning: **Bramka: błąd oceny** — agent nie startuje (zasada: w razie wątpliwości stop).\n\nSzczegóły techniczne: " + type(e).__name__)
+    print("BLAD:", type(e).__name__, e)
