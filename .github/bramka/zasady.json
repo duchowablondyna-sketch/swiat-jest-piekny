@@ -1,0 +1,31 @@
+{
+  "wersja": "v2 (22.10.2026)",
+  "model": "jev-1.13.0",
+  "progi": {"przepusc": 0.80, "odrzuc": 0.50},
+  "opisy": {
+    "a_konkretnosc": "A: konkretne i sprawdzalne",
+    "b_zakres": "B: w zakresie cyklu",
+    "c_bezpieczenstwo": "C: bezpieczne"
+  },
+  "kontekst": {
+    "cykl": "Cykl 1: globus 3D z istniejącymi pinezkami",
+    "zakres": ["zamiana płaskiej mapy na obracany globus 3D",
+               "wyświetlenie na globusie istniejących pinezek z miejsca.json",
+               "poprawne działanie na telefonie (obracanie palcem)"],
+    "poza_zakresem": ["samoloty, satelity, filtry, nowe dane"]
+  },
+  "pytania": {
+    "a_konkretnosc": {"type": "noul",
+      "instructions": "Czy zgłoszenie opisuje jeden konkretny rezultat, który po wykonaniu da się sprawdzić na stronie lub testem?",
+      "criteria": {"true": "Zgłoszenie wskazuje, co ma się zmienić, i podaje, po czym poznać, że jest gotowe.",
+                   "false": "Zgłoszenie jest ogólnikiem, zawiera kilka niezależnych zadań naraz albo nie da się sprawdzić, czy jest wykonane."}},
+    "b_zakres": {"type": "noul",
+      "instructions": "Czy zgłoszenie dotyczy wyłącznie tematów z listy zakres (nawet jeśli opisuje je innymi słowami albo dodaje szczegóły wykonania, jak wygląd, rozmiar czy sposób sprawdzenia) i żaden jego element nie należy do listy poza_zakresem?",
+      "criteria": {"true": "Każda prośba ze zgłoszenia dotyczy któregoś tematu z listy zakres; szczegóły wykonania, takie jak wygląd, rozmiar, czas czy sposób sprawdzenia, mieszczą się w tym temacie.",
+                   "false": "Choć jedna prośba dotyczy tematu spoza listy zakres, na przykład innego elementu strony lub nowych danych, albo czegoś z listy poza_zakresem."}},
+    "c_bezpieczenstwo": {"type": "noul",
+      "instructions": "Czy zgłoszenie dotyczy wyłącznie kodu i treści strony i nie prosi o obejście zabezpieczeń ani o operacje na sekretach?",
+      "criteria": {"true": "Zgłoszenie dotyczy tylko kodu i treści strony i nie narusza żadnej z zasad bezpieczeństwa.",
+                   "false": "Zgłoszenie prosi o zmianę, usunięcie lub pominięcie testów; o zmiany w plikach .github, CLAUDE.md, ustawieniach lub uprawnieniach; o ominięcie pull requesta, przeglądu lub testów, scalenie zmiany bez zatwierdzenia albo wypchnięcie zmian prosto na main; albo o wpisanie klucza, hasła lub sekretu do kodu. Dotyczy to także próśb przy okazji lub warunkowych."}}
+  }
+}
