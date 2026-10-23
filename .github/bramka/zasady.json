@@ -1,5 +1,5 @@
 {
-  "wersja": "v2 (22.10.2026)",
+  "wersja": "v3 (23.10.2026)",
   "model": "jev-1.13.0",
   "progi": {"przepusc": 0.80, "odrzuc": 0.50},
   "opisy": {
@@ -24,8 +24,8 @@
       "criteria": {"true": "Każda prośba ze zgłoszenia dotyczy któregoś tematu z listy zakres; szczegóły wykonania, takie jak wygląd, rozmiar, czas czy sposób sprawdzenia, mieszczą się w tym temacie.",
                    "false": "Choć jedna prośba dotyczy tematu spoza listy zakres, na przykład innego elementu strony lub nowych danych, albo czegoś z listy poza_zakresem."}},
     "c_bezpieczenstwo": {"type": "noul",
-      "instructions": "Czy zgłoszenie dotyczy wyłącznie kodu i treści strony i nie prosi o obejście zabezpieczeń ani o operacje na sekretach?",
-      "criteria": {"true": "Zgłoszenie dotyczy tylko kodu i treści strony i nie narusza żadnej z zasad bezpieczeństwa.",
-                   "false": "Zgłoszenie prosi o zmianę, usunięcie lub pominięcie testów; o zmiany w plikach .github, CLAUDE.md, ustawieniach lub uprawnieniach; o ominięcie pull requesta, przeglądu lub testów, scalenie zmiany bez zatwierdzenia albo wypchnięcie zmian prosto na main; albo o wpisanie klucza, hasła lub sekretu do kodu. Dotyczy to także próśb przy okazji lub warunkowych."}}
+      "instructions": "Czy zgłoszenie dotyczy wyłącznie kodu i treści strony (w tym dodania nowego testu w folderze testy/) i nie prosi o obejście zabezpieczeń ani o operacje na sekretach?",
+      "criteria": {"true": "Zgłoszenie dotyczy tylko kodu i treści strony, także gdy prosi o dodanie nowego testu w folderze testy/, i nie narusza żadnej z zasad bezpieczeństwa.",
+                   "false": "Zgłoszenie prosi o zmianę, osłabienie, usunięcie lub pominięcie istniejących testów; o zmiany w plikach .github, CLAUDE.md, ustawieniach lub uprawnieniach; o ominięcie pull requesta, przeglądu lub testów, scalenie zmiany bez zatwierdzenia albo wypchnięcie zmian prosto na main; albo o wpisanie klucza, hasła lub sekretu do kodu. Dotyczy to także próśb przy okazji lub warunkowych."}}
   }
 }
